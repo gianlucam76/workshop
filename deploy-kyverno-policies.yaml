@@ -1,0 +1,24 @@
+# kubectl create configmap disallow-latest-tag --from-file=kyverno-disallow-latest-tag.yaml
+# kubectl create secret generic disallow-empty-ingress-host --from-file=kyverno-disallow-empty-ingress-host.yaml --type=addons.projectsveltos.io/cluster-profile 
+#
+# Modify the ConfigMap adding an extra annotation:
+# kubectl edit configmap disallow-latest-tag
+# Verify Sveltos updates it
+apiVersion: config.projectsveltos.io/v1beta1
+kind: ClusterProfile
+metadata:
+  name: deploy-kyverno-policies
+spec:
+  dependsOn:
+  - deploy-kyverno
+  clusterSelector:
+    matchLabels:      
+      env: prod
+  policyRefs:
+  - name: disallow-latest-tag
+    namespace: default
+    kind: ConfigMap
+  - name: disallow-empty-ingress-host
+    namespace: default
+    kind: Secret
+

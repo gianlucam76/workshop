@@ -1,0 +1,22 @@
+# Deploys cert-manager. Values are used to instruct
+# helm to also deploy the crds
+apiVersion: config.projectsveltos.io/v1beta1
+kind: ClusterProfile
+metadata:
+  name: deploy-cert-manager
+spec:
+  clusterSelector:
+    matchLabels:
+      env: prod
+  syncMode: Continuous
+  helmCharts:
+  - repositoryURL:    https://charts.jetstack.io
+    repositoryName:   jetstack
+    chartName:        jetstack/cert-manager
+    chartVersion:     v1.16.1
+    releaseName:      cert-manager
+    releaseNamespace: cert-manager
+    helmChartAction:  Install
+    values: |
+      crds:
+        enabled: true
