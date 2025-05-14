@@ -20,9 +20,9 @@ spec:
     helmChartAction:  Install
     values: |
       admissionController:
-        replicas: 1
+        replicas: 3
       backgroundController:
-        replicas: 1
+        replicas: 3
       cleanupController:
         replicas: 1
       reportsController:
