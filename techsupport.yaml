@@ -1,0 +1,52 @@
+apiVersion: lib.projectsveltos.io/v1beta1
+kind: Techsupport
+metadata:
+  name: techsupport
+spec:
+  onDemand: true  # Enables on-demand tech support collection
+
+  deliveryMethods:  # Defines how to delivery tech support
+    - name: slack   # name must be unique within a TechSupport instance
+      type: Slack   # Type can be Webex, Slack, Discord, Telegram, SMTP, SFTP
+      secretRef:
+        name: slack
+        namespace: default
+
+  # Data collection from the management cluster
+  fromManagement:
+    resources:  # Specific resources to collect
+      - group: ""  # Empty group indicates core Kubernetes resources
+        version: v1
+        kind: ConfigMap
+        namespace: projectsveltos
+      - group: ""
+        version: v1
+        kind: Secret
+        namespace: projectsveltos
+    logs:  # Collect logs from specific namespaces
+      - namespace: projectsveltos
+    events:  # Collect events from specified namespaces. Filter by type
+      - namespace: projectsveltos
+      - namespace: kube-system
+        type: Warning  # Only collect Warning events from kube-system
+
+  # Data collection from managed clusters
+  fromManaged:
+    clusterSelector:  # Filter managed clusters for collection
+      matchLabels:
+        env: prod  # Only collect data from clusters with label "env: prod"
+    resources:  # Specific resources to collect
+      - group: ""
+        version: v1
+        kind: Secret
+        namespace: projectsveltos
+      - group: apps
+        version: v1
+        kind: Deployments
+        namespace: projectsveltos
+    logs:  # Collect logs from specific namespaces
+      - namespace: projectsveltos
+    events:  # Collect events from specified namespaces and types
+      - namespace: projectsveltos
+      - namespace: kube-system
+        type: Warning  # Only collect Warning events from kube-system
