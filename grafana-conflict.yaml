@@ -1,0 +1,17 @@
+apiVersion: config.projectsveltos.io/v1beta1
+kind: ClusterProfile
+metadata:
+  name: downgrade-grafana
+spec:
+  clusterSelector:
+    matchLabels:
+      env: prod
+  syncMode: Continuous
+  helmCharts:
+  - repositoryURL:    https://grafana.github.io/helm-charts
+    repositoryName:   grafana
+    chartName:        grafana/grafana
+    chartVersion:     9.2.1
+    releaseName:      grafana
+    releaseNamespace: grafana
+    helmChartAction:  Install

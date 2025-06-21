@@ -29,6 +29,17 @@ Sveltos Workshop
 - when such an event is detected, create a NetworkPolicy in response
 - As soon as we deploy a [Service](service.yaml) matching above event, the NetworkPolicy is created
 
+# Events With CEL
+[Deploy EventSource and EventTrigger](events-with-cel.yaml)
+- instructing Sveltos to detect v1.Service with specific labels in any production cluster
+- when such an event is detected, create a NetworkPolicy in response
+- As soon as we deploy a [Service](service.yaml) matching above event, the NetworkPolicy is created
+
+# Tier
+- [Deploy Prometheus and Grafana](prometheus-grafana.yaml)
+- [Try to downgrade Grafana with new ClusterProfile](grafana-conflict.yaml)
+- Set tier and see how that wins
+
 # Techsupport
 
 Ask Sveltos to collect [techsupport](techsupport.yaml) and delivery to slack (it requires setting up a Secret first with [Slack credentials](https://projectsveltos.github.io/sveltos/features/techsupport/#delivery-options))
