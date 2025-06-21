@@ -1,0 +1,24 @@
+apiVersion: config.projectsveltos.io/v1beta1
+kind: ClusterProfile
+metadata:
+  name: prometheus-grafana
+spec:
+  clusterSelector:
+    matchLabels:
+      env: prod
+  syncMode: Continuous
+  helmCharts:
+  - repositoryURL:    https://prometheus-community.github.io/helm-charts
+    repositoryName:   prometheus-community
+    chartName:        prometheus-community/prometheus
+    chartVersion:     27.20.0
+    releaseName:      prometheus
+    releaseNamespace: prometheus
+    helmChartAction:  Install
+  - repositoryURL:    https://grafana.github.io/helm-charts
+    repositoryName:   grafana
+    chartName:        grafana/grafana
+    chartVersion:     9.2.2
+    releaseName:      grafana
+    releaseNamespace: grafana
+    helmChartAction:  Install
